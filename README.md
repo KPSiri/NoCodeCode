@@ -1,4 +1,4 @@
-# 🚀 NoCodeCode
+# 🚀 NoCodeCode - Multi-agent system
 
 **Tell an AI to code for you.** Describe what you want, and the agent plans, builds, tests, and debugs it—automatically.
 
