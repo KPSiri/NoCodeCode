@@ -21,6 +21,8 @@ NoCodeCode is an AI-powered coding assistant that handles the entire development
 | **Debugger** | Finds and fixes errors |
 | **Tester** | Creates and runs tests |
 
+Executor and Tester agents ask for human approval before running the code on their local terminal.
+
 ## 🧠 Memory & Sessions
 
 - **Sessions**: Each conversation is saved. Resume where you left off anytime.
