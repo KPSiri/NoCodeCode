@@ -86,10 +86,8 @@ Copy `.env.example` to `.env` and update the values.
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `GOOGLE_API_KEY` | Yes (or OpenAI) | Google Gemini API key — get one at [aistudio.google.com](https://aistudio.google.com/app/apikey) |
-| `OPENAI_API_KEY` | Optional | OpenAI API key — used if Google key is absent or a GPT model is selected |
+| `GOOGLE_API_KEY` | Yes | Google Gemini API key — get one at [aistudio.google.com](https://aistudio.google.com/app/apikey) |
 | `VERBOSE` | Optional | Set `true` for verbose per-agent terminal output (default: `false`) |
-| `MODEL` | Optional | Override the default model (e.g. `gemini-1.5-flash`, `gpt-4o`) |
 
 ### Observability — Langfuse
 
