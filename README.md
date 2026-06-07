@@ -29,6 +29,12 @@ Executor and Tester agents ask for human approval before running the code on the
 - **Short-term Memory**: Current session checkpoints for context.
 - **Long-term Memory**: Preferences, past tasks, and chat history.
 
+## 📝 Observability & Logging
+
+This is optional step (The code is present in observability-logging branch)
+-- Every LLM call is logged and stored in logs/ folder 
+-- Every LLM call is traced with token counts, latency, and full prompt/response history in the Langfuse dashboard.
+
 ## 🏃 Quick Start
 
 ### 1. Create and Activate Virtual Environment
