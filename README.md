@@ -28,6 +28,12 @@ NoCodeCode is an AI-powered coding assistant that handles the entire development
 - **Short-term memory**: Current session checkpoints for context.
 - **Long-term memory**: Preferences, past tasks, and chat history.
 
+## 📝 Observability & Logging
+
+This is optional step (The code is present in observability-logging branch)
+- **Logging**: Every LLM call is logged and stored in logs/ folder 
+- **Tracing**: Every LLM call is traced with token counts, latency, and full prompt/response history in the Langfuse dashboard.
+  
 ## Quick Start
 
 ### 1. Create and activate a virtual environment
