@@ -3,5 +3,6 @@ langchain-core>=0.3.0
 langchain-google-genai>=1.0.0
 langchain-openai>=1.0.0
 langgraph-checkpoint-sqlite
+langfuse
 python-dotenv
 rich

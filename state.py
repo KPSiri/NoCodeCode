@@ -1,34 +1,33 @@
 from typing import TypedDict, Optional
- 
- 
+
+
 class AgentState(TypedDict):
     # --- Input ---
-    task: str                        # the user's original request
- 
+    task: str
+    session_id: str            
+
     # --- Planner output ---
-    plan: Optional[str]              # step-by-step breakdown
-    language: Optional[str]          # detected language (python, js, etc.)
- 
+    plan: Optional[str]
+    language: Optional[str]
+
     # --- Coder output ---
-    code: Optional[str]              # generated code
- 
+    code: Optional[str]
+
     # --- Executor output ---
-    execution_result: Optional[dict] # {"stdout": ..., "stderr": ..., "success": bool}
- 
+    execution_result: Optional[dict]
+
     # --- Debugger output ---
-    debug_attempts: int              # how many times we've tried to fix
-    error_message: Optional[str]     # last error seen
- 
+    debug_attempts: int
+    error_message: Optional[str]
+
     # --- Tester output ---
-    test_code: Optional[str]         # generated test cases
-    test_result: Optional[dict]      # {"passed": int, "failed": int, "output": str}
- 
+    test_code: Optional[str]
+    test_result: Optional[dict]
+
     # --- Control ---
-    user_approved: bool              # did user approve execution?
-    is_fixed: bool                   # did debugger fix the error?
-    final_output: Optional[str]      # final summary shown to user
- 
+    user_approved: bool
+    is_fixed: bool
+    final_output: Optional[str]
+
     # --- Memory ---
-    # Long-term preferences loaded at session start and injected into planner.
-    # Example: {"language": "python", "style": "functional", "past_tasks": [...]}
     user_preferences: Optional[dict]

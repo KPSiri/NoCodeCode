@@ -244,6 +244,8 @@ def main():
  
         if task.lower() in ("exit", "quit", "q"):
             save_preferences(USER_ID, preferences)
+            from observability.tracer import flush
+            flush()  
             print("\n✅ Memory saved. Goodbye!")
             break
  
@@ -267,6 +269,7 @@ def main():
  
         initial_state: AgentState = {
             "task": task,
+            "session_id": session_id, 
             "plan": None,
             "language": None,
             "code": None,

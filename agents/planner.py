@@ -1,5 +1,7 @@
+import time
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
+from observability.tracer import log, get_langfuse_handler
 from state import AgentState
 from dotenv import load_dotenv
 from utils import extract_text
@@ -50,15 +52,26 @@ def _format_preferences(prefs: dict) -> str:
     return "\n".join(lines) if lines else "No specific preferences."
 
 def run_planner(state: AgentState) -> AgentState:
+    log("planner", "started", {"task": state["task"]})
     print("\n[Planner] Analysing task...")
-
+ 
+    start = time.time()
+ 
+    # get LangFuse handler — None if keys not set, chain still works
+    handler = get_langfuse_handler(
+        session_id=state.get("session_id", "unknown"),
+        task=state["task"]
+    )
+ 
     preferences = state.get("user_preferences") or {}
     pref_text = _format_preferences(preferences)
-
-    response = chain.invoke({
-        "task": state["task"],
-        "preferences": pref_text
-    })
+ 
+    # pass handler in config — LangFuse records this LLM call automatically
+    invoke_config = {"callbacks": [handler]} if handler else {}
+    response = chain.invoke(
+        {"task": state["task"], "preferences": pref_text},
+        config=invoke_config
+    )
 
     #content = response.content
     content = extract_text(response)
@@ -71,6 +84,8 @@ def run_planner(state: AgentState) -> AgentState:
         if line.startswith("LANGUAGE:"):
             language = line.split(":", 1)[1].strip().lower()
             break
+    
+    elapsed = round(time.time() - start, 2)
  
     state["plan"] = content
     state["language"] = language
@@ -78,6 +93,7 @@ def run_planner(state: AgentState) -> AgentState:
     state["user_approved"] = False
     state["is_fixed"] = False
  
-    print(f"[Planner] Language: {language}")
-    print(f"[Planner] Plan ready.")
+    log("planner", "completed", {"language": language, "elapsed_s": elapsed})
+    print(f"[Planner] Language: {language} ({elapsed}s)")
+
     return state

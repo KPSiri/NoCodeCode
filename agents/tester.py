@@ -3,8 +3,10 @@ import tempfile
 import os
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
+from observability.tracer import log, get_langfuse_handler
 from state import AgentState
 from dotenv import load_dotenv
+import time
  
 load_dotenv()
  
@@ -87,12 +89,9 @@ print(f"\\nResults: {passed} passed, {failed} failed")
         output = result.stdout.strip()
         stderr = result.stderr.strip()
  
-        passed = output.count("PASS:")
-        failed = output.count("FAIL:")
- 
         return {
-            "passed": passed,
-            "failed": failed,
+            "passed": output.count("PASS:"),
+            "failed": output.count("FAIL:"),
             "output": output,
             "stderr": stderr,
             "success": result.returncode == 0
@@ -122,13 +121,22 @@ print(f"\\nResults: {passed} passed, {failed} failed")
  
  
 def run_tester(state: AgentState) -> AgentState:
+    log("tester", "started")
     print("\n[Tester] Generating test cases...")
  
-    response = chain.invoke({
-        "task": state["task"],
-        "code": state["code"]
-    })
+    start = time.time()
+
+    handler = get_langfuse_handler(
+        session_id=state.get("session_id", "unknown"),
+        task=state["task"]
+    )
  
+    invoke_config = {"callbacks": [handler]} if handler else {}
+    response = chain.invoke(
+        {"task": state["task"], "code": state["code"]},
+        config=invoke_config
+    )
+
     raw = response.content
     test_code = raw[0]["text"] if isinstance(raw, list) else raw
     test_code = test_code.strip()
@@ -139,6 +147,9 @@ def run_tester(state: AgentState) -> AgentState:
         test_code = "\n".join(lines[1:-1]) if lines[-1] == "```" else "\n".join(lines[1:])
  
     state["test_code"] = test_code
+
+    elapsed_gen = round(time.time() - start, 2)
+    log("tester", "tests_generated", {"elapsed_s": elapsed_gen})
  
     approved = ask_test_permission(test_code)
     if not approved:
@@ -155,6 +166,12 @@ def run_tester(state: AgentState) -> AgentState:
  
     result = run_tests_locally(test_code)
     state["test_result"] = result
+
+    log("tester", "completed", {
+        "passed": result["passed"],
+        "failed": result["failed"],
+        "success": result["success"]
+    })
  
     if result["output"]:
         print(result["output"])
@@ -162,3 +179,5 @@ def run_tester(state: AgentState) -> AgentState:
         print(f"[Tester] Stderr:\n{result['stderr']}")
  
     print(f"[Tester] {result['passed']} passed, {result['failed']} failed")
+
+    return state
