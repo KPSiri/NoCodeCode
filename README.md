@@ -80,7 +80,6 @@ Agent will:
 Create `.env` from `.env.example`:
 ```env
 GOOGLE_API_KEY=your_key_here
-OPENAI_API_KEY=your_key_here  # optional
 VERBOSE=false
 ```
 
