@@ -1,17 +1,17 @@
-# 🚀 NoCodeCode - Multi-agent system
+# NoCodeCode - Multi-agent system
 
 **Tell an AI to code for you.** Describe what you want, and the agent plans, builds, tests, and debugs it—automatically.
 
-## 🎯 What is NoCodeCode?
+## What is NoCodeCode?
 
 NoCodeCode is an AI-powered coding assistant that handles the entire development workflow. Instead of writing code yourself, you describe your requirements and the agent:
-- 📋 **Plans** the implementation
-- 💻 **Codes** the solution
-- ▶️ **Executes** it
-- 🐛 **Debugs** errors
-- ✅ **Tests** the result
+- **Plans** the implementation
+- **Codes** the solution
+- **Executes** it
+- **Debugs** errors
+- **Tests** the result
 
-## 🤖 Meet the Agents
+## Meet the Agents
 
 | Agent | What it does |
 |-------|-------------|
@@ -23,19 +23,19 @@ NoCodeCode is an AI-powered coding assistant that handles the entire development
 
 Executor and Tester agents ask for human approval before running the code on their local terminal.
 
-## 🧠 Memory & Sessions
+## Memory & Sessions
 
 - **Sessions**: Each conversation is saved. Resume where you left off anytime.
 - **Short-term Memory**: Current session checkpoints for context.
 - **Long-term Memory**: Preferences, past tasks, and chat history.
 
-## 📝 Observability & Logging
+## Observability & Logging
 
 This is optional step (The code is present in observability-logging branch)
 - Every LLM call is logged and stored in logs/ folder 
 - Every LLM call is traced with token counts, latency, and full prompt/response history in the Langfuse dashboard.
 
-## 🏃 Quick Start
+## Quick Start
 
 ### 1. Create and Activate Virtual Environment
 ```bash
@@ -65,7 +65,7 @@ Agent will:
 4. Show you the result
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ├── main.py              # Start here
@@ -75,7 +75,7 @@ Agent will:
 └── state.py             # Agent state management
 ```
 
-## ⚙️ Environment Variables
+## Environment Variables
 
 Create `.env` from `.env.example`:
 ```env
@@ -83,7 +83,7 @@ GOOGLE_API_KEY=your_key_here
 VERBOSE=false
 ```
 
-## 📝 License
+## License
 
 MIT License - see [LICENSE](LICENSE) for details.
 
